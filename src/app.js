@@ -14,6 +14,8 @@ const app = feathers()
 
 app.configure(configuration(path.join(__dirname, '..')))
 
+// TODO serve static info page, serve favicon
+
 app.use(compress())
   .options('*', cors())
   .use(cors())
