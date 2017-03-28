@@ -27,4 +27,9 @@ app.use(compress())
   .configure(services)
   .configure(middleware)
 
+app.service('users').create({
+  email: 'admin@feathersjs.com',
+  password: 'admin'
+})
+
 module.exports = app
