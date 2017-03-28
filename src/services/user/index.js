@@ -1,5 +1,3 @@
-'use strict'
-
 const path = require('path')
 const NeDB = require('nedb')
 const service = require('feathers-nedb')
