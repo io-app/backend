@@ -1,5 +1,4 @@
-'use strict'
-
+/* eslint-env mocha */
 const assert = require('assert')
 const app = require('../../../src/app')
 
