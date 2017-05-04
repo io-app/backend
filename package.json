@@ -21,10 +21,11 @@
     "yarn": ">= 0.18.0"
   },
   "scripts": {
-    "test": "npm run eslint && npm run mocha",
-    "eslint": "eslint src/. test/. --config .eslintrc.json",
+    "test": "npm run lint && npm run mocha",
     "start": "node src/",
-    "mocha": "mocha test/ --recursive"
+    "mocha": "mocha test/ --recursive",
+    "lint": "./node_modules/.bin/standard",
+    "lint-fix": "./node_modules/.bin/standard --fix"
   },
   "dependencies": {
     "body-parser": "^1.17.1",
@@ -44,5 +45,8 @@
     "request-promise": "^4.2.0",
     "serve-favicon": "^2.4.2",
     "winston": "^2.3.1"
+  },
+  "devDependencies": {
+    "standard": "^10.0.2"
   }
 }
