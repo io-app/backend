@@ -18,7 +18,7 @@ export default function Resolvers () {
       posts (user, args, context) {
         return Posts().find({
           query: {
-            authorId: user._id
+            authorId: user.id
           }
         })
       }
@@ -27,7 +27,7 @@ export default function Resolvers () {
       comments (post, { limit }, context) {
         return Comments().find({
           query: {
-            postId: post._id
+            postId: post.id
           }
         })
       },
@@ -66,8 +66,8 @@ export default function Resolvers () {
           }
         })
       },
-      post (root, { _id }, context) {
-        return Posts().get(_id)
+      post (root, { id }, context) {
+        return Posts().get(id)
       }
     },
 
@@ -88,11 +88,11 @@ export default function Resolvers () {
       createComment (root, args, context) {
         return Comments().create(args, context)
       },
-      removePost (root, { _id }, context) {
-        return Posts().remove(_id, context)
+      removePost (root, { id }, context) {
+        return Posts().remove(id, context)
       },
-      removeComment (root, { _id }, context) {
-        return Comments().remove(_id, context)
+      removeComment (root, { id }, context) {
+        return Comments().remove(id, context)
       }
     }
 

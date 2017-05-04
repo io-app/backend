@@ -8,7 +8,7 @@ enum Category {
 }
 
 type User {
-  _id: String! # the ! means that every author object _must_ have an id
+  id: String! # the ! means that every author object _must_ have an id
   firstName: String
   lastName: String
   username: String!
@@ -16,7 +16,7 @@ type User {
 }
 
 type Post {
-  _id: String!
+  id: String!
   title: String
   category: String
   summary: String
@@ -27,7 +27,7 @@ type Post {
 }
 
 type Comment {
-  _id: String!
+  id: String!
   content: String!
   author: User
   createdAt: String
@@ -51,7 +51,7 @@ type RootQuery {
   author(username: String!): User
   authors: [User]
   posts(category: Category): [Post]
-  post(_id: String!) : Post
+  post(id: String!) : Post
 }
 
 # this schema allows the following mutations:
@@ -78,11 +78,11 @@ type RootMutation {
   ): Comment
 
   removePost (
-    _id: String! # _id of post to remove
+    id: String! # id of post to remove
   ): Post
 
   removeComment (
-    _id: String! # _id of comment to remove
+    id: String! # id of comment to remove
   ): Comment
 
 }
