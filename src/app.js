@@ -1,35 +1,43 @@
-const path = require('path')
-const compress = require('compression')
-const cors = require('cors')
-const feathers = require('feathers')
-const configuration = require('feathers-configuration')
-const hooks = require('feathers-hooks')
-const rest = require('feathers-rest')
-const bodyParser = require('body-parser')
-const socketio = require('feathers-socketio')
-const middleware = require('./middleware')
-const services = require('./services')
+const path = require('path');
+const favicon = require('serve-favicon');
+const compress = require('compression');
+const cors = require('cors');
+const helmet = require('helmet');
+const bodyParser = require('body-parser');
 
-const app = feathers()
+const feathers = require('feathers');
+const configuration = require('feathers-configuration');
+const hooks = require('feathers-hooks');
+const rest = require('feathers-rest');
+const socketio = require('feathers-socketio');
 
-app.configure(configuration(path.join(__dirname, '..')))
+const middleware = require('./middleware');
+const services = require('./services');
+const appHooks = require('./app.hooks');
 
-// TODO serve static info page, serve favicon
+const app = feathers();
 
-app.use(compress())
-  .options('*', cors())
-  .use(cors())
-  .use(bodyParser.json())
-  .use(bodyParser.urlencoded({ extended: true }))
-  .configure(hooks())
-  .configure(rest())
-  .configure(socketio())
-  .configure(services)
-  .configure(middleware)
+// Load app configuration
+app.configure(configuration(path.join(__dirname, '..')));
+// Enable CORS, security, compression, favicon and body parsing
+app.use(cors());
+app.use(helmet());
+app.use(compress());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(favicon(path.join(app.get('public'), 'favicon.ico')));
+// Host the public folder
+app.use('/', feathers.static(app.get('public')));
 
-app.service('users').create({
-  email: 'admin@feathersjs.com',
-  password: 'admin'
-})
+// Set up Plugins and providers
+app.configure(hooks());
+app.configure(rest());
+app.configure(socketio());
 
-module.exports = app
+// Set up our services (see `services/index.js`)
+app.configure(services);
+// Configure middleware (see `middleware/index.js`) - always has to be last
+app.configure(middleware);
+app.hooks(appHooks);
+
+module.exports = app;
