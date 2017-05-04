@@ -28,6 +28,8 @@
     "lint-fix": "./node_modules/.bin/standard --fix"
   },
   "dependencies": {
+    "apollo-server": "^0.3.3",
+    "bcrypt-as-promised": "^1.1.0",
     "body-parser": "^1.17.1",
     "compression": "^1.6.2",
     "cors": "^2.8.3",
@@ -38,11 +40,16 @@
     "feathers-hooks": "^2.0.1",
     "feathers-hooks-common": "^3.2.0",
     "feathers-rest": "^1.7.2",
+    "feathers-rethinkdb": "^0.4.2",
     "feathers-socketio": "^1.6.0",
+    "graphql": "^0.9.6",
+    "graphql-tools": "^0.11.0",
     "helmet": "^3.5.0",
+    "jsonwebtoken": "^7.4.0",
     "mocha": "^3.3.0",
     "request": "^2.81.0",
     "request-promise": "^4.2.0",
+    "rethinkdbdash": "^2.3.28",
     "serve-favicon": "^2.4.2",
     "winston": "^2.3.1"
   },
