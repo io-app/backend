@@ -1,11 +1,9 @@
-const hooks = require('feathers-hooks')
-const auth = require('feathers-authentication').hooks
+const auth = require('feathers-authentication')
 
 module.exports = {
   before: {
     all: [
-      auth.verifyToken(),
-      auth.populateUser()
+      auth.hooks.authenticate('jwt')
     ],
     find: [],
     get: [],
@@ -26,9 +24,7 @@ module.exports = {
   },
 
   error: {
-    all: [
-      hooks.remove('password')
-    ],
+    all: [],
     find: [],
     get: [],
     create: [],
