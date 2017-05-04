@@ -93,8 +93,6 @@ schema {
   query: RootQuery
   mutation: RootMutation
 }
-`;
-
-
+`
 
 export default [typeDefinitions]
