@@ -7,6 +7,9 @@ const bodyParser = require('body-parser')
 const logger = require('./hooks/logger')
 
 const feathers = require('feathers')
+const auth = require('feathers-authentication')
+const jwt = require('feathers-authentication-jwt')
+const local = require('feathers-authentication-local')
 const configuration = require('feathers-configuration')
 const hooks = require('feathers-hooks')
 const rest = require('feathers-rest')
@@ -36,6 +39,21 @@ app.configure(hooks())
 app.configure(rethinkdb)
 app.configure(rest())
 app.configure(socketio())
+app.configure(auth(app.get('authentication')))
+app.configure(local())
+app.configure(jwt())
+
+app.service('authentication').hooks({
+  before: {
+    create: [
+      // You can chain multiple strategies
+      auth.hooks.authenticate(['jwt', 'local'])
+    ],
+    remove: [
+      auth.hooks.authenticate('jwt')
+    ]
+  }
+})
 
 // Set up our services (see `services/index.js`)
 app.configure(services)

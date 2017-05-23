@@ -34,9 +34,7 @@ export default function Resolvers () {
     },
     RootQuery: {
       viewer (root, args, context) {
-        return Viewer()
-          .find(context)
-          .then(result => result.data)
+        return Viewer().find(context)
       },
       user (root, { username }, context) {
         return Users().find({
@@ -70,9 +68,9 @@ export default function Resolvers () {
       },
       logIn (root, {username, password}, context) {
         return localRequest({
-          uri: '/auth/local',
+          uri: '/authentication',
           method: 'POST',
-          body: { username, password }
+          body: { strategy: 'local', username, password }
         })
       },
       createTransaction (root, {transaction}, context) {
