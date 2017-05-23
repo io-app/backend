@@ -1,8 +1,8 @@
 // Initializes the `graphql` service on path `/graphql`
-import { apolloExpress, graphiqlExpress } from 'apollo-server'
-import { makeExecutableSchema } from 'graphql-tools'
-import Resolvers from './resolvers'
-import Schema from './schema'
+const { apolloExpress, graphiqlExpress } = require('apollo-server')
+const { makeExecutableSchema } = require('graphql-tools')
+const Resolvers = require('./resolvers')
+const Schema = require('./schema')
 
 module.exports = function () {
   const app = this

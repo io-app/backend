@@ -1,6 +1,6 @@
-import request from 'request-promise'
+const request = require('request-promise')
 
-export default function Resolvers () {
+module.exports = function Resolvers () {
   let app = this
 
   let Transactions = () => app.service('transaction')
