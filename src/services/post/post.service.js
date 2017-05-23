@@ -1,7 +1,6 @@
 // Initializes the `post` service on path `/post`
 const createService = require('feathers-rethinkdb')
 const hooks = require('./post.hooks')
-const filters = require('./post.filters')
 
 module.exports = function () {
   const app = this
@@ -21,8 +20,4 @@ module.exports = function () {
   const service = app.service('post')
 
   service.hooks(hooks)
-
-  if (service.filter) {
-    service.filter(filters)
-  }
 }

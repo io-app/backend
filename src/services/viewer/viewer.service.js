@@ -1,7 +1,6 @@
 // Initializes the `viewer` service on path `/viewer`
 const createService = require('feathers-rethinkdb')
 const hooks = require('./viewer.hooks')
-const filters = require('./viewer.filters')
 
 module.exports = function () {
   const app = this
@@ -21,8 +20,4 @@ module.exports = function () {
   const service = app.service('viewer')
 
   service.hooks(hooks)
-
-  if (service.filter) {
-    service.filter(filters)
-  }
 }
