@@ -20,6 +20,7 @@ module.exports = function Resolvers () {
             userId: user.id
           }
         })
+        .then(result => result.data)
       }
     },
     Transaction: {
