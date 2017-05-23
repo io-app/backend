@@ -1,36 +1,34 @@
 const typeDefinitions = `
 
-enum Category {
-  POLITICS
-  TECHNOLOGY
-  SPORTS
-  OTHER
+type Category {
+  id: String!
+  description: String
+}
+
+type Office {
+  id: String!
+  name: String!
+  currency: String!
+  users: [User]
 }
 
 type User {
-  id: String! # the ! means that every author object _must_ have an id
+  id: String!
   firstName: String
   lastName: String
   username: String!
-  posts: [Post] # the list of Posts by this author
+  office: Office
+  transactions: [Transaction]
 }
 
-type Post {
+type Transaction {
   id: String!
-  title: String
-  category: String
-  summary: String
-  content: String!
-  createdAt: String
-  comments(limit: Int) : [Comment]
-  author: User
-}
-
-type Comment {
-  id: String!
-  content: String!
-  author: User
-  createdAt: String
+  date: String
+  currency: String
+  amount: Int
+  office: Office
+  comment: String
+  user: User
 }
 
 type AuthPayload {
@@ -38,20 +36,20 @@ type AuthPayload {
   data: User
 }
 
-input postInput {
+input transactionInput {
   title: String!
   content: String!
   summary: String
-  category: Category
+  categoryId: String
 }
 
 # the schema allows the following queries:
 type RootQuery {
   viewer: User
-  author(username: String!): User
-  authors: [User]
-  posts(category: Category): [Post]
-  post(id: String!) : Post
+  user(username: String!): User
+  users: [User]
+  transactions(categoryId: String!): [Transaction]
+  transaction(id: String!) : Transaction
 }
 
 # this schema allows the following mutations:
@@ -68,22 +66,13 @@ type RootMutation {
     password: String!
   ): AuthPayload
 
-  createPost (
-    post: postInput
-  ): Post
+  createTransaction (
+    transaction: transactionInput
+  ): Transaction
 
-  createComment (
-    postId: String!
-    content: String!
-  ): Comment
-
-  removePost (
+  removeTransaction (
     id: String! # id of post to remove
-  ): Post
-
-  removeComment (
-    id: String! # id of comment to remove
-  ): Comment
+  ): Transaction
 
 }
 
