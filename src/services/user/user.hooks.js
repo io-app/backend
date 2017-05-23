@@ -1,6 +1,6 @@
 const auth = require('feathers-authentication')
 const local = require('feathers-authentication-local')
-const { discard } = require('feathers-hooks-common')
+// const { discard } = require('feathers-hooks-common')
 const { restrictToOwner } = require('feathers-authentication-hooks')
 
 module.exports = {

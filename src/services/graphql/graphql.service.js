@@ -14,12 +14,14 @@ module.exports = function () {
 
   // Initialize our service with any options it requires
   app.use('/graphql', apolloExpress((req) => {
-    let {token, provider} = req.feathers
+    let {headers: {authorization}, provider} = req.feathers
     return {
       schema: executableSchema,
       context: {
-        token,
-        provider
+        provider,
+        headers: {
+          authorization
+        }
       }
     }
   }))
