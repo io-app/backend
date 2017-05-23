@@ -24,7 +24,7 @@ module.exports = {
   },
 
   after: {
-    all: [discard('password')],
+    // all: [discard('password')],
     find: [],
     get: [],
     create: [],

@@ -71,7 +71,9 @@ module.exports = function Resolvers () {
           uri: '/authentication',
           method: 'POST',
           body: { strategy: 'local', username, password }
-        })
+        }).then(res => ({
+          token: res.accessToken
+        }))
       },
       createTransaction (root, {transaction}, context) {
         return Transactions().create(transaction, context)
