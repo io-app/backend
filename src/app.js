@@ -4,6 +4,7 @@ const compress = require('compression')
 const cors = require('cors')
 const helmet = require('helmet')
 const bodyParser = require('body-parser')
+const logger = require('./hooks/logger')
 
 const feathers = require('feathers')
 const configuration = require('feathers-configuration')
@@ -13,7 +14,6 @@ const socketio = require('feathers-socketio')
 
 const middleware = require('./middleware')
 const services = require('./services')
-const appHooks = require('./app.hooks')
 
 const rethinkdb = require('./rethinkdb')
 
@@ -41,6 +41,14 @@ app.configure(socketio())
 app.configure(services)
 // Configure middleware (see `middleware/index.js`) - always has to be last
 app.configure(middleware)
-app.hooks(appHooks)
+app.hooks({
+  after: {
+    all: [ logger() ]
+  },
+
+  error: {
+    all: [ logger() ]
+  }
+})
 
 module.exports = app
