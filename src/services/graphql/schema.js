@@ -37,7 +37,6 @@ type AuthPayload {
 }
 
 input transactionInput {
-  id: String!
   date: String
   currency: String
   amount: Int
