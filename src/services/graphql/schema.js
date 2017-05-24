@@ -37,10 +37,13 @@ type AuthPayload {
 }
 
 input transactionInput {
-  title: String!
-  content: String!
-  summary: String
-  categoryId: String
+  id: String!
+  date: String
+  currency: String
+  amount: Int
+  officeId: String #do we need this? get office from user? or only admin can use this field?
+  comment: String
+  userId: String #regular user should not be allowed to use this, only admin!
 }
 
 # the schema allows the following queries:
