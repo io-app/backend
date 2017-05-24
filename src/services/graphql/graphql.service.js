@@ -1,15 +1,17 @@
 // Initializes the `graphql` service on path `/graphql`
+const fs = require('fs')
+const path = require('path')
 const { apolloExpress, graphiqlExpress } = require('apollo-server')
 const { makeExecutableSchema } = require('graphql-tools')
-const Resolvers = require('./resolvers')
-const Schema = require('./schema')
+const resolvers = require('./resolvers')
 
 module.exports = function () {
   const app = this
+  const typeDefs = fs.readFileSync(path.join(__dirname, 'schema.graphql'), 'utf8')
 
   const executableSchema = makeExecutableSchema({
-    typeDefs: Schema,
-    resolvers: Resolvers.call(app)
+    typeDefs,
+    resolvers: resolvers.call(app)
   })
 
   // Initialize our service with any options it requires
