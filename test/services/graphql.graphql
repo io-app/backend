@@ -73,3 +73,10 @@ query {
     id
   }
 }
+
+# single transaction
+query {
+  transaction (id: "09614330-29c3-469b-b99b-2d16603aa803") {
+    comment
+  }
+}
