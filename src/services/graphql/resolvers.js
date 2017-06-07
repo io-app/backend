@@ -27,6 +27,9 @@ module.exports = function Resolvers () {
     Transaction: {
       user (transaction, args, context) {
         return Users().get(transaction.userId)
+      },
+      office (transaction, args, context) {
+        return transaction.officeId ? Offices().get(transaction.officeId) : null
       }
     },
     AuthPayload: {
