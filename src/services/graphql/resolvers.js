@@ -6,6 +6,7 @@ module.exports = function Resolvers () {
   let Transactions = () => app.service('transaction')
   let Users = () => app.service('users')
   let Viewer = () => app.service('viewer')
+  let Offices = () => app.service('office')
 
   const localRequest = request.defaults({
     baseUrl: `http://${app.get('host')}:${app.get('port')}`,
@@ -43,19 +44,15 @@ module.exports = function Resolvers () {
             username
           }
         })
-        .then(result => result.data)
-        .then((users) => users[0])
+        .then(users => users[0])
       },
       users (root, args, context) {
         return Users()
           .find({})
-          .then(result => result.data)
       },
-      transactions (root, { categoryId }, context) {
+      transactions (root, args, context) {
         return Transactions().find({
-          query: {
-            categoryId
-          }
+          query: args
         }).then(result => result.data)
       },
       transaction (root, { id }, context) {
@@ -81,6 +78,9 @@ module.exports = function Resolvers () {
       },
       removeTransaction (root, { id }, context) {
         return Transactions().remove(id, context)
+      },
+      createOffice (root, args, context) {
+        return Offices().create(args)
       }
     }
 

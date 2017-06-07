@@ -12,15 +12,15 @@ module.exports = {
     ],
     update: [
       auth.hooks.authenticate('jwt'),
-      restrictToOwner({ ownerField: 'userId' })
+      restrictToOwner({ idField: 'id', ownerField: 'userId' })
     ],
     patch: [
       auth.hooks.authenticate('jwt'),
-      restrictToOwner({ ownerField: 'userId' })
+      restrictToOwner({ idField: 'id', ownerField: 'userId' })
     ],
     remove: [
       auth.hooks.authenticate('jwt'),
-      restrictToOwner({ ownerField: 'userId' })
+      restrictToOwner({ idField: 'id', ownerField: 'userId' })
     ]
   },
 

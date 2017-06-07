@@ -1,0 +1,75 @@
+# signup
+mutation {
+  signUp(username: "admin", password: "admin") {
+    id
+  }
+}
+
+# login
+mutation {
+  logIn(username: "admin", password: "admin") {
+    token
+  }
+}
+
+# create office
+mutation {
+  createOffice(name: "IO UK", currency: "GBP") {
+    id
+  }
+}
+
+# create transaction
+mutation {
+  createTransaction (transaction: {
+    officeId: "19f91b38-7226-46a0-8cb6-508e3762ad99"
+    date: "07/06/2017"
+    amount: 10000
+    currency: "USD"
+    comment: "This is the first transaction"
+    category: FEE
+  }) {
+    id
+    user {
+      id
+    }
+  }
+}
+
+# remove transaction
+mutation {
+  removeTransaction (id: "4ab79891-ee40-4745-8ede-048128f4ef1a") {
+    id
+  }
+}
+
+# see logged in user
+query {
+  viewer {
+    id
+    username
+  }
+}
+
+# get specific user
+query {
+  user (username: "admin") {
+    id
+    username
+  }
+}
+
+# list all users
+query {
+  users {
+    id
+    username
+  }
+}
+
+# list transactions
+query {
+  transactions (category: FEE) {
+    id
+  }
+}
