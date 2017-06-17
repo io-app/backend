@@ -8,13 +8,14 @@ type Office {
   name: String!
   currency: String!
   users: [User]
+  # maybe transactions?
 }
 
 type User {
   id: String!
   firstName: String
   lastName: String
-  username: String!
+  email: String!
   office: Office
   transactions: [Transaction]
 }
@@ -47,8 +48,14 @@ input transactionInput {
 # the schema allows the following queries:
 type RootQuery {
   viewer: User
-  user(username: String!): User
+  user(email: String!): User
   users: [User]
+  # - maybe list transactions by user
+  # - we need transactions by source office or by target office, but only if the user is assigned to that office
+  # you should only be able to see transactions if either your office is target or source office
+  # - transactions by reporting year or combination of reporting year and period number (even though the transaction only has a date field)
+  # - not really necessary now: transactions by certain calendar year, month or day
+  # - get all/valid/voided transactions
   transactions(category: Category, officeId: String): [Transaction]
   transaction(id: String!) : Transaction
 }
@@ -56,14 +63,15 @@ type RootQuery {
 # this schema allows the following mutations:
 type RootMutation {
   signUp (
-    username: String!
+    email: String!
     password: String!
-    firstName: String
-    lastName: String
+    firstName: String!
+    lastName: String!
+    officeId: String!
   ): User
 
   logIn (
-    username: String!
+    email: String!
     password: String!
   ): AuthPayload
 

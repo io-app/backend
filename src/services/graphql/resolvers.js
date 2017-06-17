@@ -41,10 +41,10 @@ module.exports = function Resolvers () {
       viewer (root, args, context) {
         return Viewer().find(context)
       },
-      user (root, { username }, context) {
+      user (root, { email }, context) {
         return Users().find({
           query: {
-            username
+            username: email
           }
         })
         .then(users => users[0])
@@ -67,11 +67,11 @@ module.exports = function Resolvers () {
       signUp (root, args, context) {
         return Users().create(args)
       },
-      logIn (root, {username, password}, context) {
+      logIn (root, {email, password}, context) {
         return localRequest({
           uri: '/authentication',
           method: 'POST',
-          body: { strategy: 'local', username, password }
+          body: { strategy: 'local', username: email, password }
         }).then(res => ({
           token: res.accessToken
         }))

@@ -1,27 +1,65 @@
+# TODO
+# - list of offices
+# - verification of users by admin (STATUS of the user can be UNVERIFIED, ACTIVE, INACTIVE)
+# - Admin should be allowed to input data for the past in the testing period
+
 # signup
+# user signs up, admin verifies
+# required: e-mail, first name, last name, national office
 mutation {
-  signUp(username: "admin", password: "admin") {
+  signUp(email: "admin@admin.uk", password: "admin", firstName: "Paul", lastName: "Bown", officeId: "") {
     id
   }
 }
 
-# login
+# DELETING a user
+# You can only delete a user if:
+# - they have no transactions connected to them
+
+mutation {
+  signUp(email: "user1@office.ch", password: "user1", firstName: "Alex", lastName: "Roggli", officeId: "aed5ef3f-79ea-45fd-9d2a-1934963ad776") {
+    id
+  }
+}
+
+# UPDATE a user
+# certain fields should only be updated by admin
+# - status
+# - officeId
+
+# login (only allowed to login if you're ACTIVE)
 mutation {
   logIn(username: "admin", password: "admin") {
     token
   }
 }
 
-# create office
+# create office (only by admin, also update and delete office – you should not be able to delete an office if users are still assigned that office)
+# An office can only be DELETED if:
+# - it has no users assigned to it
+# - it has no transactions (source or target)
 mutation {
   createOffice(name: "IO UK", currency: "GBP") {
     id
   }
 }
 
+# UPDATING an office should only be done by admin
+
 # create transaction
+# - should be only created for the own office, admin can create for all offices
+# - !!NO, period is needed! Period is always two months, date should be just added by the system, current date should be used – not even the admin should be able to change transactions from the past periods nor should he be able to create transactions for a past period – date or period should be assigned automatically by the system for now, no valid use case for entering one at the moment
+# - period number and year should not be in the transaction, only the date!
+# - currency is bound to the office currency
+# - category should be designation category
+# - designation (free text)
+# - notes instead of comment
+# - office destination (office id of the receiving office)
+# - userWhoVoidedTheTransaction
+# - dateWhenTheTransactionWasVoided
 mutation {
   createTransaction (transaction: {
+    # officeId is not enough, need sourceOffice and targetOffice
     officeId: "19f91b38-7226-46a0-8cb6-508e3762ad99"
     date: "07/06/2017"
     amount: 10000
@@ -36,7 +74,22 @@ mutation {
   }
 }
 
-# remove transaction
+# admin should be able to add and remove designation categories
+# -id
+# -name
+
+# !! periods are not needed in the database, you can always translate from a certain date to a period
+# periods are represented by a number and a reporting year
+# -number 1-6 (could be an enum)
+# -reporting year
+
+# you should only be allowed to create, update or remove transactions in the current period (even admin)
+
+# TODO think about all the mutations that update transactions, user, office
+
+# you CAN'T REMOVE OR UPDATE a transaction, you can only void (UPDATE) a transaction and create a new one
+# void transaction (only current period by anyone in that office)
+# and the user who voided it should be stored in that transaction
 mutation {
   removeTransaction (id: "4ab79891-ee40-4745-8ede-048128f4ef1a") {
     id
@@ -51,7 +104,7 @@ query {
   }
 }
 
-# get specific user
+# get specific user (only allowed if you are the specific user or are admin)
 query {
   user (username: "admin") {
     id
@@ -59,7 +112,7 @@ query {
   }
 }
 
-# list all users
+# list all users (you can only see yourself – or all users if you're admin)
 query {
   users {
     id
@@ -67,14 +120,14 @@ query {
   }
 }
 
-# list transactions
+# list transactions (only the ones where your office is either source or target or you're admin)
 query {
   transactions (category: FEE) {
     id
   }
 }
 
-# single transaction
+# single transaction (only if your office is either source or target or you're admin)
 query {
   transaction (id: "09614330-29c3-469b-b99b-2d16603aa803") {
     comment
